@@ -1,0 +1,88 @@
+<style>
+#intro {
+  position: fixed;
+  object-fit: cover;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  min-width: 100vh;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+#introContent {
+  height: 100vh;
+}
+
+p {
+  font-size: 1.1em;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+  font-weight: 200;
+}
+</style>
+
+<video autoplay muted loop id="intro">
+  <source src="<%= image_path("AdobeStock_197523665.webm") %>" type="video/webm" />
+</video>
+
+<div id="introContent" class="bg-image shadow-2-strong">
+  <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-9 col-md-8 bg-white rounded-5 shadow-5-strong">
+          <div class="m-4 text-justify">
+            <% if @cached_response %>
+              <div class="col-12 position-relative">
+                <span class="col-1 position-absolute top-0 end-0 badge badge-info">cached</span>
+              </div>
+            <% end -%>
+            <h2 class="text-center">
+              In <span class="badge badge-secondary"><%= params[:address] %></span>
+              as of <span class="badge badge-info"><%= time_ago_in_words(Time.parse(@current[:asOf])) %> ago</span>,
+              <br />
+              it is <span class="badge badge-info"><%= time_of_day(@current[:daylight]) %></span>,
+              and <span class="badge badge-primary"><%= @current[:conditionCode].titleize %></span> right now.</h2>
+            <br />
+            <div>
+              <p> The temperature is <strong><%= @current[:temperature] %>&#8451;</strong>,
+                but feels like <strong><%= @current[:temperatureApparent] %>&#8451;</strong>.</p>
+              <p>Wind is blowing at <strong><%= @current[:windSpeed] %> kmph</strong>, gusting to <strong><%= @current[:windGust] %> kmph</strong>,
+                in a <strong><%= direction_as_cardinal(@current[:windDirection]) %>erly direction</strong>.</p>
+              <p>Currently, the relative humidity is at <strong><%= @current[:humidity] %></strong>,
+                with a pressure of <strong><%= @current[:pressure] %> millibars</strong>.</p>
+            </div>
+            <h3 class="mt-3">What's Next?</h3>
+
+            <table class="mt-3 table align-middle mb-0 bg-white">
+              <thead class="table-light">
+                <tr>
+                  <th>Day</th>
+                  <th>Cond.</th>
+                  <th>temp min</th>
+                  <th>temp max</th>
+                  <th>precip amount</th>
+                  <th>precip type</th>
+                  <th>precip chance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @nxt_days[0..6].each do |day| %>
+                  <tr>
+                    <td><%= Time.parse(day[:forecastStart]).strftime("%A") %></td>
+                    <td><%= day[:conditionCode].titleize %></td>
+                    <td><%= day[:temperatureMin].floor %>&#8451;</td>
+                    <td><%= day[:temperatureMax].ceil %>&#8451;</td>
+                    <td><%= day[:precipitationAmount]%> mm</td>
+                    <td><%= day[:precipitationType] %></td>
+                    <td><%= (day[:precipitationChance] * 100).to_i %>%</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

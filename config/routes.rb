@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  post "results", controller: :lookup, action: :results
+  root "lookup#index"
 end

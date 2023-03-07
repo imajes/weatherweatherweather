@@ -1,0 +1,6 @@
+https://developer.apple.com/account/resources/identifiers/list/serviceId
+https://developer.apple.com/documentation/applemapsserverapi/geocode_an_address
+https://developer.apple.com/documentation/weatherkitrestapi/request_authentication_for_weatherkit_rest_api
+https://developer.apple.com/documentation/weatherkitrestapi/get_api_v1_weather_language_latitude_longitude
+https://developer.apple.com/documentation/weatherkitrestapi/dataset
+https://github.com/hrbrmstr/weatherkit-rust/blob/batman/src/main.rs
